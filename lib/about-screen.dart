@@ -6,7 +6,12 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return const Scaffold(
+        body: Center(
+            child: Text(
+                "This app was created by Andrew Bracero and Trafton Reynolds",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ))));
   }
 }
