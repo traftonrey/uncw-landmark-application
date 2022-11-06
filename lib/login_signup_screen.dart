@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       (route) => false);
                 },
                 child: const Text("Sign-Up Page"),
-              )
+              ),
             ],
           ),
         ),
