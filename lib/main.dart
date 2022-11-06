@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uncw_landmark_app/about-screen.dart';
+import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'loginscreen.dart';
