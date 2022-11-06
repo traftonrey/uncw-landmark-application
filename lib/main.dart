@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about-screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'loginscreen.dart';
 
-void main() {
-  runApp(const MaterialApp(title: "UNCW Landmarks", home: HomeScreen()));
+void main() async {
+  runApp(const MaterialApp(title: "Firebase Example", home: LoginScreen()));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class HomeScreen extends StatelessWidget {
