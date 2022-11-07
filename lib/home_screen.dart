@@ -14,11 +14,14 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           GridView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: sites.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2),
-            itemBuilder: (BuildContext context, int index) {
+            itemBuilder: ((context, index) {
               return MyCard(sites[index]);
-            },
+            }),
           ),
           ElevatedButton(
             onPressed: () {
@@ -54,7 +57,9 @@ class MyCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset("assets/images/${site.reference}.jpg"),
+              Image.asset(
+                "assets/images/${site.reference}.jpg",
+              ),
               Text(
                 site.name,
                 style: TextStyle(
