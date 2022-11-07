@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'site_data.dart';
 import 'login_signup_screen.dart';
 
 void main() async {
