@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/detailed_site_screen.dart';
@@ -22,8 +20,6 @@ class HomeScreen extends StatelessWidget {
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                // childAspectRatio: MediaQuery.of(context).size.width /
-                //     (MediaQuery.of(context).size.height / 4),
               ),
               itemBuilder: ((context, index) {
                 return MyCard(sites[index]);
@@ -37,12 +33,13 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AboutScreen(),
+                    builder: (context) => const AboutScreen(),
                   ),
                 );
               },
               child: const Text("Go to About Screen"),
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
