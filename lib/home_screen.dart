@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
+import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'site_data.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,7 +13,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
+        backgroundColor: Colors.teal,
       ),
+      backgroundColor: Colors.grey[250],
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -55,9 +58,8 @@ class MyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
-      // => Navigator.of(context).push(
-      //     MaterialPageRoute(builder: (context) => DetailScreen(site: site))),
+      onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => DetailedSite(site: site))),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(4),
