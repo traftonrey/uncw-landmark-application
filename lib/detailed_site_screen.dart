@@ -14,7 +14,7 @@ class DetailedSite extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              Image.asset("assets/images/${site!.name}.png"),
+              Image.asset("assets/images/${site!.name}.jpg"),
               Text(site!.description),
               ElevatedButton(
                   onPressed: () {
