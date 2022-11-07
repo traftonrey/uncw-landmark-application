@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'site_data.dart';
-import 'home_screen.dart';
-import 'about_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Drawer(
+      drawer: Drawer(
           child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -23,16 +21,16 @@ class HomeScreen extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text("Home Screen"),
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.info),
-            title: Text("About Screen"),
+            leading: const Icon(Icons.info),
+            title: const Text("About Screen"),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AboutScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const AboutScreen()));
             },
           )
         ],
@@ -56,17 +54,17 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const AboutScreen(),
-                  ),
-                );
-              },
-              child: const Text("Go to About Screen"),
-            ),
+            // const SizedBox(height: 16),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) => const AboutScreen(),
+            //       ),
+            //     );
+            //   },
+            //   child: const Text("Go to About Screen"),
+            // ),
             const SizedBox(height: 16),
           ],
         ),
