@@ -9,7 +9,11 @@ class DetailedSite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(site!.name)),
+        appBar: AppBar(
+          title: Text(site!.name),
+          backgroundColor: Colors.teal,
+        ),
+        backgroundColor: Colors.grey[250],
         body: Center(
           child: Column(
             children: [
