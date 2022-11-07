@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'site_data.dart';
@@ -11,29 +13,35 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Home"),
       ),
-      body: Column(
-        children: [
-          GridView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: sites.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            itemBuilder: ((context, index) {
-              return MyCard(sites[index]);
-            }),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AboutScreen(),
-                ),
-              );
-            },
-            child: const Text("Go to About Screen"),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                // childAspectRatio: MediaQuery.of(context).size.width /
+                //     (MediaQuery.of(context).size.height / 4),
+              ),
+              itemBuilder: ((context, index) {
+                return MyCard(sites[index]);
+              }),
+              itemCount: sites.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AboutScreen(),
+                  ),
+                );
+              },
+              child: const Text("Go to About Screen"),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -57,9 +65,12 @@ class MyCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/images/${site.reference}.jpg",
-              ),
+              Container(
+                  constraints: const BoxConstraints(maxHeight: 150),
+                  child: Image.asset(
+                    "assets/images/${site.reference}.jpg",
+                    width: 250,
+                  )),
               Text(
                 site.name,
                 style: TextStyle(
