@@ -23,6 +23,8 @@ class DetailedSite extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
                         "assets/images/${site!.reference}.jpg",
+                        height: 400,
+                        width: 400
                       ))),
               const SizedBox(height: 16),
               Text(

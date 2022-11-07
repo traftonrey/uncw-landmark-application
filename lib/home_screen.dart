@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'site_data.dart';
+import 'home_screen.dart';
+import 'about_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,6 +13,32 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: Drawer(
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.tealAccent),
+            child: Text("Choose one of the following pages:"),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("Home Screen"),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.info),
+            title: Text("About Screen"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AboutScreen()));
+            },
+          )
+        ],
+      )),
       appBar: AppBar(
         title: const Text("Home"),
         backgroundColor: Colors.teal,
