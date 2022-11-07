@@ -91,9 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
       //
       // FirebaseAuth with raise an exception if the email or password
       // are determined to be invalid, e.g., the email doesn't exist.
-      final credential = await FirebaseAuth.instance
+      // final credential =
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email!, password: password!);
-      print("Logged in ${credential.user}");
+      // print("Logged in ${credential.user}");
       error = null; // clear the error message if exists.
       setState(() {}); // Call setstate to trigger a rebuild
 
@@ -226,9 +227,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       //
       // FirebaseAuth with raise an exception if the email or password
       // are determined to be invalid, e.g., the email doesn't exist.
-      final credential = await FirebaseAuth.instance
+      // final credential =
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email!, password: password!);
-      print("Created account ${credential.user}");
+      // print("Created account ${credential.user}");
       error = null; // clear the error message if exists.
       setState(() {}); // Call setstate to trigger a rebuild
 
