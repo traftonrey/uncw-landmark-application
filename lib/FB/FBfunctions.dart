@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 var db = FirebaseFirestore.instance;
+final siteRef = FirebaseFirestore.instance.collection('Sites');
 
 Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();
@@ -20,6 +21,11 @@ Future<void> userSetup() async {
     'lastName': ''
   });
   return;
+}
+
+Future<void> getData() async {
+  QuerySnapshot snapshot = await siteRef.get();
+  final allDocs = snapshot.docs.map((doc) => doc.data()).toList();
 }
 
 // class UserModel {

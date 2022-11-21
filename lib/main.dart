@@ -8,7 +8,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MaterialApp(
-    title: "Firebase Example",
+    title: "UNCW Map and Points of Interest",
     home: HomeScreen(),
   ));
 }
