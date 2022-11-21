@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_screen.dart';
 import 'about_screen.dart';
+import 'FB/FBfunctions.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,22 +44,40 @@ class _LoginScreenState extends State<LoginScreen> {
                   MaterialPageRoute(builder: (context) => const AboutScreen()));
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text("Sign Up"),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const SignUpScreen()));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text("Sign In"),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            },
-          ),
+          FirebaseAuth.instance.currentUser == null
+              ? ListTile(
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Sign Up"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SignUpScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser == null
+              ? ListTile(
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Sign In"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser != null
+              ? ListTile(
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Log Out"),
+                  onTap: () {
+                    // setState(() {
+                    signOut();
+                    // });
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+                  },
+                )
+              : Container(),
         ],
       )),
       appBar: AppBar(
@@ -204,22 +223,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   MaterialPageRoute(builder: (context) => const AboutScreen()));
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text("Sign Up"),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const SignUpScreen()));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text("Sign In"),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            },
-          ),
+          FirebaseAuth.instance.currentUser == null
+              ? ListTile(
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Sign Up"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SignUpScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser == null
+              ? ListTile(
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Sign In"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser != null
+              ? ListTile(
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Log Out"),
+                  onTap: () {
+                    // setState(() {
+                    signOut();
+                    // });
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+                  },
+                )
+              : Container(),
         ],
       )),
       appBar: AppBar(
@@ -306,6 +343,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email!, password: password!);
       // print("Created account ${credential.user}");
+
+      // Adds user ID and email to Cloud Firestore
+      await userSetup();
+
       error = null; // clear the error message if exists.
       setState(() {}); // Call setstate to trigger a rebuild
 
