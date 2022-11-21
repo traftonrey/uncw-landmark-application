@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/detailed_site_screen.dart';
+import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'site_data.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,7 +33,23 @@ class HomeScreen extends StatelessWidget {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const AboutScreen()));
             },
-          )
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("Sign Up"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SignUpScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("Sign In"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            },
+          ),
         ],
       )),
       appBar: AppBar(
