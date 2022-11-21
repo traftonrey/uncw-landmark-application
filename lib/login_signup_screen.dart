@@ -31,8 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
             leading: const Icon(Icons.home),
             title: const Text("Home Screen"),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomeScreen()));
             },
           ),
           ListTile(
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pop();
       // Now go to the HomeScreen.
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
+        builder: (context) => HomeScreen(),
       ));
     } on FirebaseAuthException catch (e) {
       // Exceptions are raised if the Firebase Auth service
@@ -192,8 +192,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             leading: const Icon(Icons.home),
             title: const Text("Home Screen"),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomeScreen()));
             },
           ),
           ListTile(
@@ -318,7 +318,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Navigator.of(context).pop();
       // Now go to the HomeScreen.
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
+        builder: (context) => HomeScreen(),
       ));
     } on FirebaseAuthException catch (e) {
       // Exceptions are raised if the Firebase Auth service

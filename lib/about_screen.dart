@@ -24,7 +24,7 @@ class AboutScreen extends StatelessWidget {
               title: const Text("Home Screen"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const HomeScreen()));
+                    builder: (context) => HomeScreen()));
               },
             ),
             ListTile(

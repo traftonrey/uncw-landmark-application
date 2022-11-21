@@ -4,11 +4,11 @@ import 'firebase_options.dart';
 import 'home_screen.dart';
 
 void main() async {
-  runApp(const MaterialApp(
-    title: "Firebase Example",
-    home: HomeScreen(),
-  ));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(MaterialApp(
+    title: "UNCW Map and Points of Interest",
+    home: HomeScreen(),
+  ));
 }
