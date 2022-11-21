@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_screen.dart';
+import 'about_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +19,52 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.tealAccent),
+            child: Text("Choose one of the following pages:"),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("Home Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text("About Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const AboutScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("Sign Up"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SignUpScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("Sign In"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            },
+          ),
+        ],
+      )),
+      appBar: AppBar(
+        title: const Text("Log In"),
+        backgroundColor: Colors.teal,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -66,16 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   "Error: $error",
                   style: TextStyle(color: Colors.red[800], fontSize: 12),
                 ),
-              const Spacer(flex: 3),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpScreen()),
-                      (route) => false);
-                },
-                child: const Text("Sign-Up Page"),
-              ),
+              const Spacer(flex: 3)
             ],
           ),
         ),
@@ -142,6 +180,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.tealAccent),
+            child: Text("Choose one of the following pages:"),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("Home Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text("About Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const AboutScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("Sign Up"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SignUpScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("Sign In"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            },
+          ),
+        ],
+      )),
+      appBar: AppBar(
+        title: const Text("Sign Up"),
+        backgroundColor: Colors.teal,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -202,16 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   "Error: $error",
                   style: TextStyle(color: Colors.red[800], fontSize: 12),
                 ),
-              const Spacer(flex: 3),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                      (route) => false);
-                },
-                child: const Text("Login Page"),
-              )
+              const Spacer(flex: 3)
             ],
           ),
         ),
