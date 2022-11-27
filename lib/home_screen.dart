@@ -88,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.teal,
         ),
         backgroundColor: Colors.grey[250],
-        // body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        body: StreamBuilder(
+        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            // body: StreamBuilder(
             stream: siteRef.snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
