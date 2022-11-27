@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
-import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'site_data.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'FB/FBfunctions.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,8 +14,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final siteRef = FirebaseFirestore.instance.collection('Sites');
+
   @override
   Widget build(BuildContext context) {
+    print("siteRef: $siteRef");
     return Scaffold(
         drawer: Drawer(
             child: ListView(
@@ -26,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: const BoxDecoration(color: Colors.tealAccent),
               child: FirebaseAuth.instance.currentUser == null
                   ? const Text("Choose one of the following pages:")
-                  : Text("Welcome, ${FirebaseAuth.instance.currentUser?.uid}"),
+                  : Text(
+                      "Welcome, ${FirebaseAuth.instance.currentUser?.email}"),
             ),
             ListTile(
               leading: const Icon(Icons.home),
@@ -85,10 +88,17 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.teal,
         ),
         backgroundColor: Colors.grey[250],
+        // body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         body: StreamBuilder(
             stream: siteRef.snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                // if (!snapshot.hasData) {
+                //   print("does not have data");
+                // }
+                // if (snapshot.data!.docs.isEmpty) {
+                //   print("docs are empty");
+                // }
                 return const Text("No data to show!");
               }
               var sites = snapshot.data!.docs;
@@ -96,48 +106,42 @@ class _HomeScreenState extends State<HomeScreen> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
+                itemCount: sites.length,
                 itemBuilder: ((context, index) => Card(
                       child: Padding(
                         padding: const EdgeInsets.all(4),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                constraints:
-                                    const BoxConstraints(maxHeight: 150),
-                                child: Image.asset(
-                                  snapshot
-                                      .data()
-                                      .documents[index]
-                                      .get('reference'),
-                                  width: 250,
-                                )),
-                            Text(
-                              snapshot.data().documents[index].get('name'),
-                              // "${sites[index].get('name')}",
-                              style: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              snapshot
-                                  .data()
-                                  .documents[index]
-                                  .get('description'),
-                              style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ],
+                        child: GridTile(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  constraints:
+                                      const BoxConstraints(maxHeight: 150),
+                                  child: Image.asset(
+                                    "${sites[index].get('reference')}",
+                                    width: 250,
+                                  )),
+                              Text(
+                                "${sites[index].get('name')}",
+                                // "${sites[index].get('name')}",
+                                style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${sites[index].get('description')}",
+                                style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     )),
-                shrinkWrap: true,
-                itemCount: sites.length,
-                scrollDirection: Axis.vertical,
               );
             }));
   }
@@ -151,8 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return GestureDetector(
-      
-      
 //       onTap: () => Navigator.of(context).push(
 //           MaterialPageRoute(builder: (context) => DetailedSite(site: site))),
 //       child: Card(
@@ -169,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //                     width: 250,
 //                   )),
 //               Text(
-//                 "${sites[index].get('"
+//                 "${sites[index].get('name')}",
 //                 style: TextStyle(
 //                     color: Colors.grey[700],
 //                     fontSize: 14,
@@ -225,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //       },
 //     );
 //   }
-//}
+// }
 
 
 

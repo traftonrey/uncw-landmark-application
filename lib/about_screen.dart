@@ -30,7 +30,7 @@ class AboutScreen extends StatelessWidget {
               title: const Text("Home Screen"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => HomeScreen()));
+                    builder: (context) => const HomeScreen()));
               },
             ),
             ListTile(
