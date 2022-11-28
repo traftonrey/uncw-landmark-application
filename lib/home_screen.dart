@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
+import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -107,41 +108,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisCount: 2,
                 ),
                 itemCount: sites.length,
-                itemBuilder: ((context, index) => Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: GridTile(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  constraints:
-                                      const BoxConstraints(maxHeight: 150),
-                                  child: Image.asset(
-                                    "${sites[index].get('reference')}",
-                                    width: 250,
-                                  )),
-                              Text(
-                                "${sites[index].get('name')}",
-                                // "${sites[index].get('name')}",
-                                style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "${sites[index].get('description')}",
-                                style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
+                itemBuilder: ((context, index) => GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailedSite(site: sites[index])));
+                  },
+                  child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: GridTile(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    constraints:
+                                        const BoxConstraints(maxHeight: 150),
+                                    child: Image.asset(
+                                      "${sites[index].get('reference')}",
+                                      width: 250,
+                                    )),
+                                Text(
+                                  "${sites[index].get('name')}",
+                                  // "${sites[index].get('name')}",
+                                  style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "${sites[index].get('description')}",
+                                  style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    )),
+                )),
               );
             }));
   }
