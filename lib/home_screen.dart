@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final siteRef = FirebaseFirestore.instance.collection('Sites');
-
+  // Future<List<String>> favoriteFuture = getUserFavorites();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,6 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const Spacer(),
+                                  FutureBuilder<List<String>>(
+                                    future: getUserFavorites(),
+                                    builder: ((context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        print('fail ${snapshot.data}');
+                                        return const CircularProgressIndicator();
+                                      }
+                                      print('success ${snapshot.data}');
+                                      return const Text('got some data');
+                                    }),
+                                  )
                                 ],
                               ),
                               Text(

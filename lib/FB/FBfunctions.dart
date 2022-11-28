@@ -7,6 +7,24 @@ var db = FirebaseFirestore.instance;
 List<QueryDocumentSnapshot> searchResults = [];
 final siteRef = FirebaseFirestore.instance.collection("Sites");
 
+Future<List<String>> getUserFavorites() async {
+  final userData =
+      db.collection("Users").doc(FirebaseAuth.instance.currentUser?.uid);
+
+  userData.get().then(
+    (DocumentSnapshot doc) {
+      var data = doc.data() as Map<String, dynamic>;
+      print(data['favorites']);
+      // for (var fav in data['favorites']) {
+      //   print(fav);
+      // }
+      return data['favorites'];
+    },
+    onError: (e) => (print("Error getting document: $e")),
+  );
+  return [""];
+}
+
 Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();
 }

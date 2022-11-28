@@ -24,9 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.tealAccent),
-            child: Text("Choose one of the following pages:"),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.tealAccent),
+            child: FirebaseAuth.instance.currentUser == null
+                ? const Text("Choose one of the following pages:")
+                : Text("Welcome, ${FirebaseAuth.instance.currentUser?.email}"),
           ),
           ListTile(
             leading: const Icon(Icons.home),
@@ -203,9 +205,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.tealAccent),
-            child: Text("Choose one of the following pages:"),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.tealAccent),
+            child: FirebaseAuth.instance.currentUser == null
+                ? const Text("Choose one of the following pages:")
+                : Text("Welcome, ${FirebaseAuth.instance.currentUser?.email}"),
           ),
           ListTile(
             leading: const Icon(Icons.home),
