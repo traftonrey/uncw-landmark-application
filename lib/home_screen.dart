@@ -153,12 +153,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ),
-                              Text(
-                                "${sites[index].get('description')}",
-                                style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.normal),
+                              SingleChildScrollView(
+                                child: Flexible(
+                                  child: Text(
+                                    "${sites[index].get('description')}",
+                                    style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
