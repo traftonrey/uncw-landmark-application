@@ -5,6 +5,7 @@ import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'FB/FBfunctions.dart';
+import 'map_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,6 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map),
+            title: const Text("Map Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const MapScreen()));
             },
           ),
           ListTile(
@@ -144,11 +153,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     future: getUserFavorites(),
                                     builder: ((context, snapshot) {
                                       if (!snapshot.hasData) {
-                                        print('fail ${snapshot.data}');
+                                        print(
+                                            'loading... snapshot data: ${snapshot.data}');
                                         return const CircularProgressIndicator();
                                       }
-                                      print('success ${snapshot.data}');
-                                      return const Text('got some data');
+                                      print(
+                                          'success... snapshot data: ${snapshot.data}');
+                                      return const Icon(Icons.star);
                                     }),
                                   )
                                 ],
