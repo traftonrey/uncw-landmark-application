@@ -2,12 +2,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 var db = FirebaseFirestore.instance;
 List<QueryDocumentSnapshot> searchResults = [];
 final siteRef = FirebaseFirestore.instance.collection("Sites");
 
 Future<List<String>> getUserFavorites() async {
+  // if (FirebaseAuth.instance.currentUser != null) {
+  print("CURRENT USER UID: ${FirebaseAuth.instance.currentUser?.uid}");
   final userData =
       db.collection("Users").doc(FirebaseAuth.instance.currentUser?.uid);
 
@@ -15,15 +18,15 @@ Future<List<String>> getUserFavorites() async {
     (DocumentSnapshot doc) {
       var data = doc.data() as Map<String, dynamic>;
       print(data['favorites']);
-      // for (var fav in data['favorites']) {
-      //   print(fav);
-      // }
-      return data['favorites'];
+      List favoriteList = data['favorites'];
+      return favoriteList;
     },
     onError: (e) => (print("Error getting document: $e")),
   );
-  return [""];
+  return ["test"];
 }
+
+specificUserFavorite(String currentPOI) {}
 
 Future<void> signOut() async {
   await FirebaseAuth.instance.signOut();

@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final siteRef = FirebaseFirestore.instance.collection('Sites');
-  // Future<List<String>> favoriteFuture = getUserFavorites();
+  Future<List<String>> favoriteFuture = getUserFavorites();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,29 +152,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                   FutureBuilder<List<String>>(
                                     future: getUserFavorites(),
                                     builder: ((context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        print(
-                                            'loading... snapshot data: ${snapshot.data}');
-                                        return const CircularProgressIndicator();
-                                      }
-                                      print(
-                                          'success... snapshot data: ${snapshot.data}');
-                                      return const Icon(Icons.star);
+                                      return snapshot.connectionState ==
+                                              ConnectionState.waiting
+                                          ? const CircularProgressIndicator()
+                                          : const Icon(Icons.star_border);
+
+                                      // if (!snapshot.hasData) {
+                                      //   print(
+                                      //       'loading... snapshot data: ${snapshot.data}');
+                                      //   return const CircularProgressIndicator();
+                                      // }
+                                      // print(
+                                      //     'Snapshot success:===\n\n\n\n\nsnapshot data: ${snapshot.data}\n\n\n\n\n===');
+                                      // return const Icon(Icons.star);
                                     }),
                                   )
                                 ],
                               ),
-                              SingleChildScrollView(
-                                child: Flexible(
-                                  child: Text(
-                                    "${sites[index].get('description')}",
-                                    style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ),
+                              // SingleChildScrollView(
+                              //   child: Flexible(
+                              Text(
+                                "${sites[index].get('description')}",
+                                style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal),
                               ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
