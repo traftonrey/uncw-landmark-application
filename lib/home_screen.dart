@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final siteRef = FirebaseFirestore.instance.collection('Sites');
-  Future<List<String>> favoriteFuture = getUserFavorites();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,24 +148,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const Spacer(),
-                                  FutureBuilder<List<String>>(
-                                    future: getUserFavorites(),
-                                    builder: ((context, snapshot) {
-                                      return snapshot.connectionState ==
-                                              ConnectionState.waiting
-                                          ? const CircularProgressIndicator()
-                                          : const Icon(Icons.star_border);
+                                  GestureDetector(
+                                      onTap: () {
+                                        QueryDocumentSnapshot site =
+                                            sites[index];
+                                        List<dynamic> hasFavorited =
+                                            site.get('favorited');
 
-                                      // if (!snapshot.hasData) {
-                                      //   print(
-                                      //       'loading... snapshot data: ${snapshot.data}');
-                                      //   return const CircularProgressIndicator();
-                                      // }
-                                      // print(
-                                      //     'Snapshot success:===\n\n\n\n\nsnapshot data: ${snapshot.data}\n\n\n\n\n===');
-                                      // return const Icon(Icons.star);
-                                    }),
-                                  )
+                                        if (!hasFavorited.remove(FirebaseAuth
+                                            .instance.currentUser?.uid)) {
+                                          hasFavorited.add(FirebaseAuth
+                                              .instance.currentUser?.uid);
+                                        }
+                                        siteRef.doc(site.id).update(
+                                            {'favorited': hasFavorited});
+                                      },
+                                      child: (sites[index].get('favorited'))
+                                              .contains(FirebaseAuth
+                                                  .instance.currentUser?.uid)
+                                          ? const Icon(
+                                              Icons.star,
+                                              color: Colors.teal,
+                                            )
+                                          : const Icon(
+                                              Icons.star_outline,
+                                              color: Colors.teal,
+                                            ))
                                 ],
                               ),
                               // SingleChildScrollView(
