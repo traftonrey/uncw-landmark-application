@@ -172,9 +172,13 @@ class _LoginScreenState extends State<LoginScreen> {
       // Exceptions are raised if the Firebase Auth service
       // encounters an error. We need to display these to the user.
       if (e.code == 'user-not-found') {
-        error = 'No user found for that email.';
+        error = 'No user found for that email. Please try again.';
       } else if (e.code == 'wrong-password') {
-        error = 'Wrong password provided for that user.';
+        error = 'Wrong password provided for that user. Please try again.';
+      } else if (e.code == 'user-disabled') {
+        error = 'This user has been disabled. Please try again later.';
+      } else if (e.code == 'invalid-email') {
+        error = 'This email is invalid. Please try again.';
       }
 
       // Call setState to redraw the widget, which will display
@@ -306,6 +310,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) {
                     if (value == null || value.length < 8) {
                       return 'Your password must contain at least 8 characters.';
+                    } else if (value != password) {
+                      return 'Passwords do not match.';
                     }
                     return null; // Returning null means "no issues"
                   }),
@@ -368,12 +374,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } on FirebaseAuthException catch (e) {
       // Exceptions are raised if the Firebase Auth service
       // encounters an error. We need to display these to the user.
-      if (e.code == 'user-not-found') {
-        error = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        error = 'Wrong password provided for that user.';
+      if (e.code == 'email-already-in-use') {
+        error = 'Email is already in use. Please try another email address.';
+      } else if (e.code == 'invalid-email') {
+        error = 'Email address is not valid. Please try again.';
       } else if (password != repeatPassword) {
         error = 'Passwords do not match. Please try again.';
+      } else if (e.code == 'operation-not-allowed') {
+        error =
+            'Account creation is currently disabled at this time. Please try again later.';
+      } else if (e.code == 'weak-password') {
+        error = 'The password is not strong enough. Please try again.';
       }
 
       // Call setState to redraw the widget, which will display

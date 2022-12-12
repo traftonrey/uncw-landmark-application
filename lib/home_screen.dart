@@ -95,16 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       backgroundColor: Colors.grey[250],
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          // body: StreamBuilder(
           stream: siteRef.snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              // if (!snapshot.hasData) {
-              //   print("does not have data");
-              // }
-              // if (snapshot.data!.docs.isEmpty) {
-              //   print("docs are empty");
-              // }
               return const Center(
                   child: Text("No data to show! Have you logged in?"));
             }
@@ -148,45 +141,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const Spacer(),
-                                  GestureDetector(
-                                      onTap: () {
-                                        QueryDocumentSnapshot site =
-                                            sites[index];
-                                        List<dynamic> hasFavorited =
-                                            site.get('favorited');
+                                  FirebaseAuth.instance.currentUser != null
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            QueryDocumentSnapshot site =
+                                                sites[index];
+                                            List<dynamic> hasFavorited =
+                                                site.get('favorited');
 
-                                        if (!hasFavorited.remove(FirebaseAuth
-                                            .instance.currentUser?.uid)) {
-                                          hasFavorited.add(FirebaseAuth
-                                              .instance.currentUser?.uid);
-                                        }
-                                        siteRef.doc(site.id).update(
-                                            {'favorited': hasFavorited});
-                                      },
-                                      child: (sites[index].get('favorited'))
-                                              .contains(FirebaseAuth
-                                                  .instance.currentUser?.uid)
-                                          ? const Icon(
-                                              Icons.star,
-                                              color: Colors.teal,
-                                            )
-                                          : const Icon(
-                                              Icons.star_outline,
-                                              color: Colors.teal,
-                                            ))
+                                            if (!hasFavorited.remove(
+                                                FirebaseAuth.instance
+                                                    .currentUser?.uid)) {
+                                              hasFavorited.add(FirebaseAuth
+                                                  .instance.currentUser?.uid);
+                                            }
+                                            siteRef.doc(site.id).update(
+                                                {'favorited': hasFavorited});
+                                          },
+                                          child: (sites[index].get('favorited'))
+                                                  .contains(FirebaseAuth
+                                                      .instance
+                                                      .currentUser
+                                                      ?.uid)
+                                              ? const Icon(
+                                                  Icons.star,
+                                                  color: Colors.teal,
+                                                )
+                                              : const Icon(
+                                                  Icons.star_outline,
+                                                  color: Colors.teal,
+                                                ))
+                                      : Container(),
                                 ],
                               ),
-                              // SingleChildScrollView(
-                              //   child: Flexible(
-                              Text(
-                                "${sites[index].get('description')}",
-                                style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -198,112 +185,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// class MyCard extends StatelessWidget {
-//   MyCard({super.key});
-
-//   final sites = FirebaseFirestore.instance.collection('Sites');
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () => Navigator.of(context).push(
-//           MaterialPageRoute(builder: (context) => DetailedSite(site: site))),
-//       child: Card(
-//         child: Padding(
-//           padding: const EdgeInsets.all(4),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Container(
-//                   constraints: const BoxConstraints(maxHeight: 150),
-//                   child: Image.asset(
-//                     "${sites[index].get('reference')}",
-//                     width: 250,
-//                   )),
-//               Text(
-//                 "${sites[index].get('name')}",
-//                 style: TextStyle(
-//                     color: Colors.grey[700],
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.bold),
-//               ),
-//               Text(
-//                 site.description,
-//                 style: const TextStyle(
-//                     color: Colors.grey,
-//                     fontSize: 10,
-//                     fontWeight: FontWeight.normal),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class PeopleList extends StatelessWidget {
-//   PeopleList({super.key});
-
-//   // Reference to the Firestore "People" collection
-//   final sitesRef = FirebaseFirestore.instance.collection('People');
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: sitesRef.snapshots(), //.snapshots() gives us a Stream
-//       builder: (context, snapshot) {
-//         // Make sure that the snapshot has data with it.
-//         // There may be no data while the network connection is initializing.
-//         // And sometimes the data is empty, like and empty street.
-//         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-//           return const Text("No data to show!");
-//         }
-
-//         // Here is the list of Documents from the Sites collection.
-//         var siteDocs = snapshot.data!.docs;
-//         // Use a GridView.builder to generate a Gridview
-//         // to display the Sites collection
-//         return GridView.builder(
-//           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//                 crossAxisCount: 2,
-//           itemCount: siteDocs.length,
-//           itemBuilder: ((context, index) => Card(
-//               child: ListTile(
-//                   title: Text(
-//                       "${personDocs[index].get('first')} ${personDocs[index].get('last')}"),
-//                  ))),
-//         );
-//       },
-//     );
-//   }
-// }
-
-
-
-// TRIED TO CREATE AN OBJECT OF DOCUMENT
-
-// class SiteList extends StatelessWidget {
-//   SiteList({super.key});
-
-//   // Reference to the Firestore "People" collection
-//   final siteRef = FirebaseFirestore.instance.collection('Sites');
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//         stream: siteRef.snapshots(), //.snapshots() gives us a Stream
-//         builder: (context, snapshot) {
-//           // Make sure that the snapshot has data with it.
-//           // There may be no data while the network connection is initializing.
-//           // And sometimes the data is empty, like and empty street.
-//           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-//             return const Text("No data to show!");
-//           }
-//           // Here is the list of Documents from the Sites collection.
-//           var siteDocs = snapshot.data!.docs;
-//         });
-//   }
-// }
