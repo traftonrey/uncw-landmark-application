@@ -20,7 +20,6 @@ Future<void> userSetup() async {
       .set({
     'uid': FirebaseAuth.instance.currentUser!.uid,
     'email': FirebaseAuth.instance.currentUser!.email,
-    'favorites': [],
     'firstName': '',
     'lastName': ''
   });
@@ -31,13 +30,11 @@ class UserModel {
   UserModel(
       {required this.uid,
       required this.email,
-      required this.favorites,
       required this.firstName,
       required this.lastName});
 
   final String uid;
   final String email;
-  List<String> favorites;
   final String firstName;
   final String lastName;
 
@@ -45,7 +42,6 @@ class UserModel {
     return {
       'uid': uid,
       'email': email,
-      'favorites': favorites,
       'firstName': firstName,
       'lastName': lastName
     };
