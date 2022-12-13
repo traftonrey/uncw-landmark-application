@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -13,6 +15,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  String? error;
+  List<Position> positions = [];
+  bool isProcessing = false;
   GoogleMapController? _controller;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
@@ -63,26 +68,92 @@ class _MapScreenState extends State<MapScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goWander,
-        label: const Text('Wander!'),
-        icon: const Icon(Icons.hiking),
+        onPressed: () => _getLocation(),
+        label: const Text('My current location!'),
+        icon: const Icon(Icons.location_on),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  _goWander() {
-    Random random = Random();
-    double randomLatitude = random.nextDouble() * 180 - 90;
-    double randomLongitude = random.nextDouble() * 360 - 180;
-    print("Going to $randomLongitude, $randomLongitude");
+  // _goWander() {
+  //   Random random = Random();
+  //   double randomLatitude = random.nextDouble() * 180 - 90;
+  //   double randomLongitude = random.nextDouble() * 360 - 180;
+  //   print("Going to $randomLongitude, $randomLongitude");
 
-    CameraPosition destination = CameraPosition(
-        bearing: random.nextDouble() * 360,
-        target: LatLng(randomLatitude, randomLongitude),
-        tilt: 79.5,
-        zoom: 5);
+  //   CameraPosition destination = CameraPosition(
+  //       bearing: random.nextDouble() * 360,
+  //       target: LatLng(randomLatitude, randomLongitude),
+  //       tilt: 79.5,
+  //       zoom: 5);
 
-    _controller?.animateCamera(CameraUpdate.newCameraPosition(destination));
+  //   _controller?.animateCamera(CameraUpdate.newCameraPosition(destination));
+  // }
+
+  _getLocation() async {
+    error = null;
+
+    // Test if location services are enabled.
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      error = 'Location services are disabled.';
+    }
+
+    // Has the user already granted permission?
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again.
+        //
+        // Your App should show an explanatory UI now.
+        error = 'Location permissions are denied';
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      error =
+          'Location permissions are permanently denied, we cannot request permissions.';
+    }
+
+    // Check that everything okay, then access the position of the device.
+    if (error == null) {
+      // Trigger a rebuild to indicate the location is processing.
+      setState(() {
+        isProcessing = true;
+      });
+      // This await blocks execution.
+      Position pos = await Geolocator.getCurrentPosition();
+      positions.add(pos);
+      isProcessing = false; // Processing is finished.
+    }
+
+    // Trigger the rebuild.
+    setState(() {});
   }
 }
+
+  // void _currentLocation() async {
+  //   final GoogleMapController controller = await _controller.future;
+  //   LocationData currentLocation;
+  //   var location = Location();
+  //   try {
+  //     currentLocation = await location.getLocation();
+  //   } on Exception {
+  //     currentLocation = null;
+  //   }
+
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(
+  //     CameraPosition(
+  //       bearing: 0,
+  //       target: LatLng(currentLocation.latitude, currentLocation.longitude),
+  //       zoom: 17.0,
+  //     ),
+  //   ));
+  // }
