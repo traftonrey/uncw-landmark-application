@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uncw_landmark_app/user_sites.dart';
 import 'login_signup_screen.dart';
 import 'home_screen.dart';
 import 'FB/FBfunctions.dart';
@@ -28,10 +29,18 @@ class AboutScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.home),
-              title: const Text("Home Screen"),
+              title: const Text("UNCW Landmarks"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const HomeScreen()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.home_filled),
+              title: const Text("User Landmarks"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const UserSitesScreen()));
               },
             ),
             ListTile(

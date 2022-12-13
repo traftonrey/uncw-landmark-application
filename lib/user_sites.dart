@@ -1,23 +1,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:uncw_landmark_app/home_screen.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uncw_landmark_app/new_site.dart';
-import 'package:uncw_landmark_app/user_sites.dart';
 import 'FB/FBfunctions.dart';
 import 'map_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class UserSitesScreen extends StatefulWidget {
+  const UserSitesScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<UserSitesScreen> createState() => _UserSitesScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final siteRef = FirebaseFirestore.instance.collection('Sites');
+class _UserSitesScreenState extends State<UserSitesScreen> {
+  final siteRef = FirebaseFirestore.instance.collection('UserSites');
+  var storageRef = FirebaseStorage.instance.ref();
+  String? imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // futureImages = FirebaseStorage.instance.ref('/images').listAll();
+  }
+
+  // void _getFileUrl(siteName) async {
+  //   try {
+  //     // We have to search all the files to see if the user
+  //     // has a profile pic.
+  //     ListResult result = await storageRef.child('images').listAll();
+  //     for (Reference ref in result.items) {
+  //       print(ref.name);
+  //       // Leverage our naming schema from _getImage()
+  //       if (ref.name.startsWith("$siteName")) {
+  //         imageFile = await ref.getDownloadURL();
+  //         setState(() {});
+  //       }
+  //     }
+  //   } on FirebaseException catch (e) {
+  //     // Caught an exception from Firebase.
+  //     print("Couldn't download picture for that landmark.");
+  //   }
+  // }
+
+  Future<String> downloadURL(String imgName) async {
+    print(imgName);
+    String downloadURL = await storageRef.child(imgName).getDownloadURL();
+
+    return downloadURL;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.home_filled),
+            leading: const Icon(Icons.school),
             title: const Text("User Landmarks"),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -111,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       )),
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("User-Submitted Landmarks"),
         backgroundColor: Colors.teal,
       ),
       backgroundColor: Colors.grey[250],
@@ -143,13 +180,46 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                  constraints:
-                                      const BoxConstraints(maxHeight: 150),
-                                  child: Image.asset(
-                                    "${sites[index].get('reference')}",
-                                    width: 250,
-                                  )),
+                              // Container(
+                              //     constraints:
+                              //         const BoxConstraints(maxHeight: 150),
+                              //     child: Image.network(
+                              //       storageRef
+                              //           .child(
+                              //               "${sites[index].get('reference')}")
+                              //           .getDownloadURL(),
+                              //       width: 250,
+                              //     )),
+                              FutureBuilder(
+                                // future: downloadURL('Trask Coliseum .jpg'),
+                                future:
+                                    downloadURL(sites[index].get('reference')),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  print('Snapshot data: $snapshot.data');
+                                  if (snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    return Center(
+                                        child: Container(
+                                      constraints:
+                                          const BoxConstraints(maxHeight: 150),
+                                      child: Image.network(
+                                        snapshot.data!,
+                                        width: 125,
+                                        height: 125,
+                                      ),
+                                    ));
+                                  }
+                                  if (snapshot.connectionState ==
+                                          ConnectionState.waiting ||
+                                      !snapshot.hasData) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                  return Container();
+                                },
+                              ),
+                              const Spacer(),
                               Row(
                                 children: [
                                   Text(

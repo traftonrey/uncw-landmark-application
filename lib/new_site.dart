@@ -8,6 +8,7 @@ import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/home_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:uncw_landmark_app/map_screen.dart';
+import 'package:uncw_landmark_app/user_sites.dart';
 
 class NewSiteScreen extends StatefulWidget {
   const NewSiteScreen({super.key});
@@ -78,6 +79,14 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home_filled),
+            title: const Text("User Landmarks"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const UserSitesScreen()));
             },
           ),
           ListTile(
@@ -276,7 +285,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
       }
       // Specify the bucket location so that it will be something like
       // `<ourBucket>/images/AOBrzuwu9ZQO3kteja956exgf0U2.jpg`
-      final siteImageRef = storageRef.child("images/$siteName$fileExtension");
+      final siteImageRef = storageRef.child("images/${siteName}$fileExtension");
       try {
         // Upload the image file.
         await siteImageRef.putFile(File(image.path));
@@ -287,13 +296,14 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
         // print("Profile picture successfully saved!");
       } on FirebaseException catch (e) {
         // Caught an exception from Firebase.
-        print("Failed with error '${e.code}': ${e.message}");
+        // print("Failed with error '${e.code}': ${e.message}");
       }
       // Adding new site to cloud firestore
       final data = {
         "name": siteName,
         "description": siteDescription,
-        "reference": siteImageRef.fullPath
+        "reference": siteImageRef.fullPath,
+        "favorited": [""]
       };
 
       db.collection("UserSites").doc(siteName).set(data);

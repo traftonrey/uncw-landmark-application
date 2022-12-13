@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uncw_landmark_app/new_site.dart';
+import 'package:uncw_landmark_app/user_sites.dart';
 import 'home_screen.dart';
 import 'about_screen.dart';
 import 'FB/FBfunctions.dart';
@@ -38,6 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home_filled),
+            title: const Text("User Landmarks"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const UserSitesScreen()));
             },
           ),
           ListTile(
@@ -241,6 +250,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home_filled),
+            title: const Text("User Landmarks"),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const UserSitesScreen()));
             },
           ),
           ListTile(
