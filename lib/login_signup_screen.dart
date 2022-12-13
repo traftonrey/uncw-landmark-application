@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uncw_landmark_app/new_site.dart';
 import 'home_screen.dart';
 import 'about_screen.dart';
 import 'FB/FBfunctions.dart';
+import 'map_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("Home Screen"),
+            title: const Text("UNCW Landmarks"),
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
@@ -44,6 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const AboutScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map),
+            title: const Text("Map Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const MapScreen()));
             },
           ),
           FirebaseAuth.instance.currentUser == null
@@ -63,6 +73,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const LoginScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser != null
+              ? ListTile(
+                  leading: const Icon(Icons.add),
+                  title: const Text("Add Landmark"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NewSiteScreen()));
                   },
                 )
               : Container(),
@@ -217,10 +237,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("Home Screen"),
+            title: const Text("UNCW Landmarks"),
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map),
+            title: const Text("Map Screen"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const MapScreen()));
             },
           ),
           ListTile(
@@ -248,6 +276,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const LoginScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser != null
+              ? ListTile(
+                  leading: const Icon(Icons.add),
+                  title: const Text("Add Landmark"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NewSiteScreen()));
                   },
                 )
               : Container(),

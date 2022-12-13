@@ -4,6 +4,7 @@ import 'package:uncw_landmark_app/about_screen.dart';
 import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uncw_landmark_app/new_site.dart';
 import 'FB/FBfunctions.dart';
 import 'map_screen.dart';
 
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
+            // Hamburger menu
             decoration: const BoxDecoration(color: Colors.tealAccent),
             child: FirebaseAuth.instance.currentUser == null
                 ? const Text("Choose one of the following pages:")
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("Home Screen"),
+            title: const Text("UNCW Landmarks"),
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
@@ -75,6 +77,16 @@ class _HomeScreenState extends State<HomeScreen> {
               : Container(),
           FirebaseAuth.instance.currentUser != null
               ? ListTile(
+                  leading: const Icon(Icons.add),
+                  title: const Text("Add Landmark"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NewSiteScreen()));
+                  },
+                )
+              : Container(),
+          FirebaseAuth.instance.currentUser != null
+              ? ListTile(
                   leading: const Icon(Icons.account_circle),
                   title: const Text("Log Out"),
                   onTap: () {
@@ -98,8 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
           stream: siteRef.snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return const Center(
-                  child: Text("No data to show! Have you logged in?"));
+              return const Center(child: Text("No data to show!"));
             }
             var sites = snapshot.data!.docs;
             return GridView.builder(
@@ -134,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Text(
                                     "${sites[index].get('name')}",
-                                    // "${sites[index].get('name')}",
                                     style: TextStyle(
                                         color: Colors.grey[700],
                                         fontSize: 14,

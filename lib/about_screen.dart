@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uncw_landmark_app/login_signup_screen.dart';
+import 'login_signup_screen.dart';
 import 'home_screen.dart';
 import 'FB/FBfunctions.dart';
+import 'new_site.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -58,6 +59,16 @@ class AboutScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const LoginScreen()));
+                    },
+                  )
+                : Container(),
+            FirebaseAuth.instance.currentUser != null
+                ? ListTile(
+                    leading: const Icon(Icons.add),
+                    title: const Text("Add Landmark"),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const NewSiteScreen()));
                     },
                   )
                 : Container(),
