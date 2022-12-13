@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:uncw_landmark_app/detailed_user_site.dart';
 import 'package:uncw_landmark_app/home_screen.dart';
 import 'package:uncw_landmark_app/about_screen.dart';
-import 'package:uncw_landmark_app/detailed_site_screen.dart';
 import 'package:uncw_landmark_app/login_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uncw_landmark_app/new_site.dart';
@@ -25,31 +25,10 @@ class _UserSitesScreenState extends State<UserSitesScreen> {
   @override
   void initState() {
     super.initState();
-
-    // futureImages = FirebaseStorage.instance.ref('/images').listAll();
   }
 
-  // void _getFileUrl(siteName) async {
-  //   try {
-  //     // We have to search all the files to see if the user
-  //     // has a profile pic.
-  //     ListResult result = await storageRef.child('images').listAll();
-  //     for (Reference ref in result.items) {
-  //       print(ref.name);
-  //       // Leverage our naming schema from _getImage()
-  //       if (ref.name.startsWith("$siteName")) {
-  //         imageFile = await ref.getDownloadURL();
-  //         setState(() {});
-  //       }
-  //     }
-  //   } on FirebaseException catch (e) {
-  //     // Caught an exception from Firebase.
-  //     print("Couldn't download picture for that landmark.");
-  //   }
-  // }
-
   Future<String> downloadURL(String imgName) async {
-    print(imgName);
+    // print(imgName);
     String downloadURL = await storageRef.child(imgName).getDownloadURL();
 
     return downloadURL;
@@ -170,7 +149,7 @@ class _UserSitesScreenState extends State<UserSitesScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  DetailedSite(site: sites[index])));
+                                  DetailedUserSite(site: sites[index])));
                     },
                     child: Card(
                       child: Padding(
@@ -196,7 +175,7 @@ class _UserSitesScreenState extends State<UserSitesScreen> {
                                     downloadURL(sites[index].get('reference')),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<String> snapshot) {
-                                  print('Snapshot data: $snapshot.data');
+                                  // print('Snapshot data: $snapshot.data');
                                   if (snapshot.connectionState ==
                                           ConnectionState.done &&
                                       snapshot.hasData) {
