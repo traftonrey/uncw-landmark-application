@@ -68,12 +68,6 @@ class _MapScreenState extends State<MapScreen> {
           _controller = controller;
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _getLocation(),
-        label: const Text('My current location!'),
-        icon: const Icon(Icons.location_on),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

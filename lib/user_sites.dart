@@ -174,8 +174,8 @@ class _UserSitesScreenState extends State<UserSitesScreen> {
                                           const BoxConstraints(maxHeight: 150),
                                       child: Image.network(
                                         snapshot.data!,
-                                        width: 125,
-                                        height: 125,
+                                        width: 115,
+                                        height: 115,
                                       ),
                                     ));
                                   }
