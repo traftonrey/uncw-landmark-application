@@ -7,5 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MaterialApp(
-      title: "UNCW Map and Points of Interest", home: LoginScreen()));
+      debugShowCheckedModeBanner: false,
+      title: "UNCW Map and Points of Interest",
+      home: LoginScreen()));
 }
