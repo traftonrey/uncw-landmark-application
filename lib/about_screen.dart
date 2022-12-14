@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uncw_landmark_app/map_screen.dart';
 import 'package:uncw_landmark_app/user_sites.dart';
 import 'login_signup_screen.dart';
 import 'home_screen.dart';
@@ -21,6 +22,7 @@ class AboutScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
+              // Hamburger menu
               decoration: const BoxDecoration(color: Colors.tealAccent),
               child: FirebaseAuth.instance.currentUser == null
                   ? const Text("Choose one of the following pages:")
@@ -41,6 +43,14 @@ class AboutScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const UserSitesScreen()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.map),
+              title: const Text("Map Screen"),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const MapScreen()));
               },
             ),
             ListTile(
@@ -86,7 +96,9 @@ class AboutScreen extends StatelessWidget {
                     leading: const Icon(Icons.account_circle),
                     title: const Text("Log Out"),
                     onTap: () {
+                      // setState(() {
                       signOut();
+                      // });
 
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const LoginScreen()));

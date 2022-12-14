@@ -29,6 +29,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
   final _formKey = GlobalKey<FormState>();
   XFile? image;
   String? submitError;
+  bool finished = false;
 
   @override
   void initState() {
@@ -213,6 +214,10 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
                     if (_formKey.currentState!.validate()) {
                       // This calls all validators() inside the form for us.
                       _createSite(siteName, siteDescription, image);
+                      if (finished) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const UserSitesScreen()));
+                      }
                     }
                   }),
             ),
@@ -277,6 +282,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
       };
 
       db.collection("UserSites").doc(siteName).set(data);
+      finished = true;
     }
   }
 }
