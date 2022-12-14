@@ -160,23 +160,11 @@ class _UserSitesScreenState extends State<UserSitesScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Container(
-                              //     constraints:
-                              //         const BoxConstraints(maxHeight: 150),
-                              //     child: Image.network(
-                              //       storageRef
-                              //           .child(
-                              //               "${sites[index].get('reference')}")
-                              //           .getDownloadURL(),
-                              //       width: 250,
-                              //     )),
                               FutureBuilder(
-                                // future: downloadURL('Trask Coliseum .jpg'),
                                 future:
                                     downloadURL(sites[index].get('reference')),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<String> snapshot) {
-                                  // print('Snapshot data: $snapshot.data');
                                   if (snapshot.connectionState ==
                                           ConnectionState.done &&
                                       snapshot.hasData) {

@@ -33,31 +33,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
   @override
   void initState() {
     super.initState();
-    // _getFileUrl();
   }
-
-  // void _getFileUrl() async {
-  //   try {
-  //     // We have to search all the files to see if the user
-  //     // has a profile pic.
-  //     ListResult result = await storageRef.child('images').listAll();
-  //     for (Reference ref in result.items) {
-  //       print(ref.name);
-  //       // Leverage our naming schema from _getImage()
-  //       if (ref.name.startsWith("$siteName")) {
-  //         imageFile = await ref.getDownloadURL();
-  //         imgValidated = false;
-  //         setState(() {});
-  //       } else {
-  //         imgValidated = true;
-  //         setState(() {});
-  //       }
-  //     }
-  //   } on FirebaseException catch (e) {
-  //     // Caught an exception from Firebase.
-  //     print("Couldn't download picture for that landmark.");
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -196,10 +172,6 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
                   decoration: const InputDecoration(hintText: "Site Name"),
                   onChanged: (value) => siteName = value,
                   validator: (value) {
-                    // _getFileUrl();
-                    // if (!imgValidated) {
-                    //   return 'Your title matches the name of another landmark.';
-                    // }
                     if (value == null) {
                       return 'Please enter a title.';
                     }
@@ -258,9 +230,6 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
   }
 
   _createSite(siteName, siteDescription, image) async {
-    // print("site name: $siteName");
-    // print("site description: $siteDescription");
-    // print("site image: $image");
     if (siteName == null) {
       submitError = 'Please enter a landmark name.';
       setState(() {});
@@ -285,6 +254,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
       }
       // Specify the bucket location so that it will be something like
       // `<ourBucket>/images/AOBrzuwu9ZQO3kteja956exgf0U2.jpg`
+      // ignore: unnecessary_brace_in_string_interps
       final siteImageRef = storageRef.child("images/${siteName}$fileExtension");
       try {
         // Upload the image file.
@@ -293,7 +263,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
         imageFile = await siteImageRef.getDownloadURL();
         setState(() {});
         // We should provide feedback to the user here.
-        // print("Profile picture successfully saved!");
+        // ignore: unused_catch_clause
       } on FirebaseException catch (e) {
         // Caught an exception from Firebase.
         // print("Failed with error '${e.code}': ${e.message}");

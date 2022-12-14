@@ -13,7 +13,6 @@ class _DetailedUserSiteState extends State<DetailedUserSite> {
   var storageRef = FirebaseStorage.instance.ref();
 
   Future<String> downloadURL(String imgName) async {
-    // print(imgName);
     String downloadURL = await storageRef.child(imgName).getDownloadURL();
 
     return downloadURL;

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, avoid_print
 
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class _MapScreenState extends State<MapScreen> {
   String? error;
   List<Position> positions = [];
   bool isProcessing = false;
+  // ignore: unused_field
   GoogleMapController? _controller;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
@@ -76,21 +77,6 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  // _goWander() {
-  //   Random random = Random();
-  //   double randomLatitude = random.nextDouble() * 180 - 90;
-  //   double randomLongitude = random.nextDouble() * 360 - 180;
-  //   print("Going to $randomLongitude, $randomLongitude");
-
-  //   CameraPosition destination = CameraPosition(
-  //       bearing: random.nextDouble() * 360,
-  //       target: LatLng(randomLatitude, randomLongitude),
-  //       tilt: 79.5,
-  //       zoom: 5);
-
-  //   _controller?.animateCamera(CameraUpdate.newCameraPosition(destination));
-  // }
-
   _getLocation() async {
     error = null;
 
@@ -138,22 +124,3 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {});
   }
 }
-
-  // void _currentLocation() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   LocationData currentLocation;
-  //   var location = Location();
-  //   try {
-  //     currentLocation = await location.getLocation();
-  //   } on Exception {
-  //     currentLocation = null;
-  //   }
-
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(
-  //     CameraPosition(
-  //       bearing: 0,
-  //       target: LatLng(currentLocation.latitude, currentLocation.longitude),
-  //       zoom: 17.0,
-  //     ),
-  //   ));
-  // }
