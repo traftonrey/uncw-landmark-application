@@ -158,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     "${sites[index].get('name')}",
                                     style: TextStyle(
                                         color: Colors.grey[700],
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const Spacer(),
