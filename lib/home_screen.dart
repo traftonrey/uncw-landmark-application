@@ -8,6 +8,7 @@ import 'package:uncw_landmark_app/new_site.dart';
 import 'package:uncw_landmark_app/user_sites.dart';
 import 'FB/FBfunctions.dart';
 import 'map_screen.dart';
+import 'package:rotating_icon_button/rotating_icon_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -136,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   DetailedSite(site: sites[index])));
                     },
                     child: Card(
+                      elevation: 10,
                       child: Padding(
                         padding: const EdgeInsets.all(4),
                         child: GridTile(
@@ -182,14 +184,79 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       .instance
                                                       .currentUser
                                                       ?.uid)
-                                              ? const Icon(
-                                                  Icons.star,
-                                                  color: Colors.teal,
+                                              ? RotatingIconButton(
+                                                  onTap: (() {
+                                                    QueryDocumentSnapshot site =
+                                                        sites[index];
+                                                    List<dynamic> hasFavorited =
+                                                        site.get('favorited');
+
+                                                    if (!hasFavorited.remove(
+                                                        FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            ?.uid)) {
+                                                      hasFavorited.add(
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser
+                                                              ?.uid);
+                                                    }
+                                                    siteRef
+                                                        .doc(site.id)
+                                                        .update({
+                                                      'favorited': hasFavorited
+                                                    });
+                                                  }),
+                                                  borderRadius: 4.0,
+                                                  rotateType: RotateType.semi,
+                                                  clockwise: false,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 5,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.star,
+                                                    color: Colors.teal,
+                                                  ),
                                                 )
-                                              : const Icon(
-                                                  Icons.star_outline,
-                                                  color: Colors.teal,
-                                                ))
+                                              : RotatingIconButton(
+                                                  onTap: (() {
+                                                    QueryDocumentSnapshot site =
+                                                        sites[index];
+                                                    List<dynamic> hasFavorited =
+                                                        site.get('favorited');
+
+                                                    if (!hasFavorited.remove(
+                                                        FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            ?.uid)) {
+                                                      hasFavorited.add(
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser
+                                                              ?.uid);
+                                                    }
+                                                    siteRef
+                                                        .doc(site.id)
+                                                        .update({
+                                                      'favorited': hasFavorited
+                                                    });
+                                                  }),
+                                                  borderRadius: 4.0,
+                                                  rotateType: RotateType.semi,
+                                                  clockwise: false,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 5,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.star_outline,
+                                                    color: Colors.teal,
+                                                  )))
                                       : Container(),
                                 ],
                               ),

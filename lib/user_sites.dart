@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uncw_landmark_app/new_site.dart';
 import 'FB/FBfunctions.dart';
 import 'map_screen.dart';
+import 'package:rotating_icon_button/rotating_icon_button.dart';
 
 class UserSitesScreen extends StatefulWidget {
   const UserSitesScreen({super.key});
@@ -231,14 +232,79 @@ class _UserSitesScreenState extends State<UserSitesScreen> {
                                                       .instance
                                                       .currentUser
                                                       ?.uid)
-                                              ? const Icon(
-                                                  Icons.star,
-                                                  color: Colors.teal,
+                                              ? RotatingIconButton(
+                                                  onTap: (() {
+                                                    QueryDocumentSnapshot site =
+                                                        sites[index];
+                                                    List<dynamic> hasFavorited =
+                                                        site.get('favorited');
+
+                                                    if (!hasFavorited.remove(
+                                                        FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            ?.uid)) {
+                                                      hasFavorited.add(
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser
+                                                              ?.uid);
+                                                    }
+                                                    siteRef
+                                                        .doc(site.id)
+                                                        .update({
+                                                      'favorited': hasFavorited
+                                                    });
+                                                  }),
+                                                  borderRadius: 4.0,
+                                                  rotateType: RotateType.semi,
+                                                  clockwise: false,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 5,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.star,
+                                                    color: Colors.teal,
+                                                  ),
                                                 )
-                                              : const Icon(
-                                                  Icons.star_outline,
-                                                  color: Colors.teal,
-                                                ))
+                                              : RotatingIconButton(
+                                                  onTap: (() {
+                                                    QueryDocumentSnapshot site =
+                                                        sites[index];
+                                                    List<dynamic> hasFavorited =
+                                                        site.get('favorited');
+
+                                                    if (!hasFavorited.remove(
+                                                        FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            ?.uid)) {
+                                                      hasFavorited.add(
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser
+                                                              ?.uid);
+                                                    }
+                                                    siteRef
+                                                        .doc(site.id)
+                                                        .update({
+                                                      'favorited': hasFavorited
+                                                    });
+                                                  }),
+                                                  borderRadius: 4.0,
+                                                  rotateType: RotateType.semi,
+                                                  clockwise: false,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 5,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.star_outline,
+                                                    color: Colors.teal,
+                                                  )))
                                       : Container(),
                                 ],
                               ),
