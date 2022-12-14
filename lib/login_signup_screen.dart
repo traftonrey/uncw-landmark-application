@@ -6,6 +6,7 @@ import 'home_screen.dart';
 import 'about_screen.dart';
 import 'FB/FBfunctions.dart';
 import 'map_screen.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -136,12 +137,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   }),
               TextFormField(
                   decoration:
-                      const InputDecoration(hintText: "Enter a password"),
+                      const InputDecoration(hintText: "Enter a password."),
                   obscureText: true,
                   onChanged: (value) => password = value,
                   validator: (value) {
                     if (value == null || value.length < 8) {
-                      return 'Your password must contain at least 8 characters.';
+                      return 'Please enter a password that is eight characters or longer.';
                     }
                     return null; // Returning null means "no issues"
                   }),
@@ -159,11 +160,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   }),
               if (error != null)
-                Text(
-                  "Error: $error",
-                  style: TextStyle(color: Colors.red[800], fontSize: 12),
-                ),
-              const Spacer(flex: 3)
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TyperAnimatedText("Error: $error",
+                        textStyle:
+                            TextStyle(color: Colors.red[800], fontSize: 12))
+                  ],
+                  totalRepeatCount: 1,
+                )
             ],
           ),
         ),
